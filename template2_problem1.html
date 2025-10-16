@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Interest Calculator</title>
+  <link rel="stylesheet" href="colourCode.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #2d3748;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      gap: 0px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.06);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .arrow-col {
+      width: 40px;
+      position: relative;
+      margin-right: 10px;
+    }
+
+    .arrow {
+      position: absolute;
+      left: 0;
+      font-size: 24px;
+      color: #667eea;
+      transition: all 0.3s ease;
+    }
+    
+    .arrow:hover {
+      transform: translateX(5px);
+      color: #764ba2;
+    }
+
+    .arrow1 { top: 50px; }
+    .arrow2 { top: 216px; }
+    .arrow3 { top: 369PX; }
+    .arrow4 { top: 525px; }
+    .arrow5 { top: 647px; }
+
+    .left-col {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .right-col {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding-left: 54px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bracket {
+      background: linear-gradient(135deg, #ffeaea, #f8f4ff);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .bracket:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .fraction {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 5px;
+    }
+
+    .fraction .top {
+      padding: 3px 17px;
+    }
+
+    .fraction .bottom {
+      border-top: 2px solid #000;
+      padding: 0 6px;
+    }
+
+    .varbox {
+      padding: 3px 17px;
+      border-radius: 6px;
+      display: inline-block;
+      margin: 0 4px;
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .numbox {
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      padding: 8px 16px;
+      border-radius: 8px;
+      display: inline-block;
+      margin: 0 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      z-index: 2;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .numbox:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, #1bad83, #0ea5e9);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(27, 173, 131, 0.3);
+      font-size: 18px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    .highlight:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(27, 173, 131, 0.4);
+    }
+
+    .dashed-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      position: relative;
+      align-items: center;
+    }
+
+    .dashed-line {
+      width: 0;
+      border-left: 3px dashed #000;
+      height: 70px;
+      position: relative;
+      top: 5px;
+    }
+
+    .blackbox-inline {
+      background: #222;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 27px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      gap: 10px;
+    }
+
+    .blackbox {
+      background: linear-gradient(135deg, #1a202c, #2d3748);
+      color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      display: flex;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .blackbox:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+
+    .blackbox-container {
+      position: relative;
+    }
+
+    .long-arrow {
+      position: absolute;
+      top: -12px;
+      left: 177px;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 94px;
+      background: white;
+      z-index: 1;
+      rotate: 270deg;
+    }
+
+    .long-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 12px solid white;
+    }
+
+    .right-top-box {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      border: 2px dashed #667eea;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .right-top-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-color: #764ba2;
+    }
+
+    .right-top-box img {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+      }
+      
+      .arrow-col {
+        display: none;
+      }
+      
+      .right-col {
+        padding-left: 0;
+      }
+      
+      body {
+        font-size: 14px;
+      }
+    }
+
+    .vertical-content {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .calc-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .thirdBracket {
+      font-size: 100px;
+      font-weight: 100;
+    }
+
+    .num0 { background: linear-gradient(to bottom, #F8BACA, #A1C1E0);}
+    .num1 { background: linear-gradient(to bottom, #EBE0C7, #97B5BB);}
+    .num2 { background: linear-gradient(to bottom, #F3DDFF, #F9FAD7);}
+    .num3 { background: linear-gradient(to bottom, #FFBFBD, #C0EEFC);}
+    .num4 { background: linear-gradient(to bottom, #F5DEE7, #EEB8CC);}
+    .num5 { background: linear-gradient(to bottom, #FFB686, #F3DDFF);}
+    .num6 { background: linear-gradient(to bottom, #CA8454, #FBF6F3);}
+    .num7 { background: linear-gradient(to bottom, #3399FE, #F0F7FF);}
+    .num8 { background: linear-gradient(to bottom, #B8DDFF, #ffffff);}
+    .num9 { background: linear-gradient(to bottom, #F1FAFB, #8DD6D8);} 
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Arrow Column -->
+  <div class="arrow-col">
+    <div class="arrow arrow1">➜</div>
+    <div class="arrow arrow2">➜</div>
+    <div class="arrow arrow3">➜</div>
+    <div class="arrow arrow4">➜</div>
+    <div class="arrow arrow5">➜</div>
+  </div>
+
+  <!-- Left Column -->
+  <div class="left-col">
+    <div class="step">
+      <span class="numbox">10648</span>
+      <span>=</span>
+      <span class="numbox">8000</span>
+      <div class="bracket">
+        <span class="thirdBracket">[</span> 1 +
+        <span class="fraction">
+          <span class="top varbox R">r</span>
+          <span class="bottom">100</span>
+        </span> <span class="thirdBracket">]</span> <sup>3</sup>
+      </div>
+    </div>
+
+    <div style="position: relative; left:130px; display: flex;flex-direction: column ; row-gap: 10px;">
+      <div class="step">
+        <div class="bracket">  <span class="thirdBracket">[</span> 1 +
+          <span class="fraction">
+            <span class="top varbox R">r</span>
+            <span class="bottom">100</span>
+          </span> <span class="thirdBracket">]</span><sup>3</sup>
+        </div>
+        <span>=</span>
+        <span class="fraction">
+          <span class="top">10648</span>
+          <span class="bottom">8000</span>
+        </span>
+      </div>
+
+      <div class="step">
+        <div class="bracket">  <span class="thirdBracket">[</span> 1 +
+          <span class="fraction">
+            <span class="top varbox R">r</span>
+            <span class="bottom">100</span>
+          </span>  <span class="thirdBracket">]</span><sup>3</sup>
+        </div>
+        <span>=</span>
+        <span class="fraction">
+          <span class="top">1331</span>
+          <span class="bottom">1000</span>
+        </span>
+      </div>
+
+      <div class="dashed-container">
+        <div class="bracket"> <span class="thirdBracket">[</span> 1 +
+          <span class="fraction">
+            <span class="top varbox R">r</span>
+            <span class="bottom">100</span>
+          </span>  <span class="thirdBracket">]</span>
+        </div>
+
+        <span>=</span>
+        <span class="fraction">
+          <span class="top"><span class="numbox num1">11</span></span>
+          <span class="bottom"><span class="numbox num0">10</span></span>
+        </span>
+
+        <div class="dashed-line"></div>
+
+        <div class="step">
+          <span class="blackbox-inline">11³ = 1331<br>10³ = 1000</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="varbox R">r</span>
+      <span>=</span>
+      <span class="fraction">
+        <span class=" top"><span class="numbox num1">1</span></span>
+        <span class="bottom"><span class="numbox num0">10</span></span>
+      </span>
+      <span>× 100</span>
+      <span class="varbox R" style="margin-left: 80px;">r</span>
+      <span>=</span>
+      <span class="numbox">10%</span>
+    </div>
+  </div>
+
+  <!-- Right Column -->
+  <div class="right-col">
+    <div class="right-top-box">
+      <img src="interesticon.png" alt="icon">
+      <div class="vertical-content">
+        <span>Interest Compounded Annually</span>
+
+        <!-- ARROW + BLACKBOX WRAPPER -->
+        <div class="blackbox-container">
+          <div class="long-arrow"></div>
+          <div class="blackbox" style="color: #000;">
+            <span class="numbox">8000</span>
+            <span class="numbox num3">3</span>
+            <span class="numbox">10648</span>
+          </div>
+        </div>
+
+        <span style="text-align: center;">years</span>
+      </div>
+    </div>
+
+    <div class="blackbox" style="padding-left: 35px;">
+      Find the rate of interest when ₹8000<br />
+      amounts to ₹10648 in 3 years
+    </div>
+
+    <div style="position: relative;left: 126px; display: flex; flex-direction: column; row-gap: 20px;">
+      <div class="calc-line">
+        <span>Using compound interest formula:</span>
+      </div>
+
+      <div class="calc-line">
+        <span>=</span>
+        <span>A = P</span>
+        <span class="bracket">  <span class="thirdBracket">[</span>1 +
+          <span class="fraction">
+            <span class="top">r</span>
+            <span class="bottom">100</span>
+          </span>  <span class="thirdBracket">]</span> <sup>n</sup>
+        </span>
+      </div>
+
+      <div class="calc-line">
+        <span>Rate =</span>
+        <span class="highlight">10%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
